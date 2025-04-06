@@ -25,13 +25,20 @@ class AuthController extends Controller
 
     if (Auth::attempt($credentials)) {
         $request->session()->regenerate();
-        return redirect()->route('home'); // Chuyển hướng đến trang chủ
+
+        // Kiểm tra role và điều hướng
+        if (Auth::user()->role == 'admin') {
+            return redirect()->route('home'); // Trang admin
+        } else {
+            return redirect()->route('admin.dashboard'); // Trang user
+        }
     }
 
     return back()->withErrors([
         'email' => 'Thông tin đăng nhập không chính xác.',
     ]);
 }
+
 
 
     // Hiển thị form đăng ký
@@ -47,7 +54,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:100|confirmed',
+            'password' => 'required|min:8|confirmed',
+            'role' => 'required|in:admin,user', // Chỉ chấp nhận 'admin' hoặc 'user'
         ]);
 
         // Tạo tài khoản mới
@@ -55,11 +63,12 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => $request->role, // Gán role
         ]);
 
-        // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
         return redirect()->route('login')->with('success', 'Đăng ký thành công! Vui lòng đăng nhập.');
     }
+
 
     // Xử lý đăng xuất
     public function logout(Request $request)

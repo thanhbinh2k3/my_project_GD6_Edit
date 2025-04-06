@@ -10,7 +10,8 @@
 
     <p>Name: {{ $user->name }}</p>
     <p>Email: {{ $user->email }}</p>
+    <p>Joined on: {{ $user->created_at->format('d/m/Y') }}</p>
 
-    <a href="{{ route('user.index') }}">Back to User List</a>
+    <a href="{{ route('home') }}">Back to User List</a>
 </body>
 </html>

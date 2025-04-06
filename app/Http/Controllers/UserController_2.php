@@ -27,6 +27,7 @@ class UserController_2 extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:admin,user',  // Validate role
         ]);
 
         // Create a new user
@@ -34,6 +35,7 @@ class UserController_2 extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role,  // Store the role
         ]);
 
         return redirect()->route('user.index')->with('success', 'User created successfully!');

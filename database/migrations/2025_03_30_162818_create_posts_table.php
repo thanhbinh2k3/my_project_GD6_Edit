@@ -13,9 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
+        // Đoạn code này tạo bảng posts với các trường 'title', 'category', 'status' và các trường mặc định của Laravel.
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('title');  // Tiêu đề bài viết
+            $table->string('category');  // Danh mục bài viết
+            $table->enum('status', ['draft', 'published'])->default('draft'); // Kiểm tra status
+            $table->timestamps();  // Trường created_at và updated_at
         });
     }
 
@@ -26,6 +30,7 @@ return new class extends Migration
      */
     public function down()
     {
+        // Xóa bảng posts nếu migration bị rollback
         Schema::dropIfExists('posts');
     }
 };

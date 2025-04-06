@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 class HomeController extends Controller
 {
+    // Hàm hiển thị trang home
     public function index()
     {
-        return view('auth.trang_chu'); // Sử dụng đường dẫn auth.trang_chu
+        return view('home'); // Trả về view home.blade.php
     }
 }

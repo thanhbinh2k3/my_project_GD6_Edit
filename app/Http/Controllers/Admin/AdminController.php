@@ -9,10 +9,10 @@ class AdminController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role !== 'admin') {
+        if (Auth::user()->role == 'admin') {
             return redirect()->route('login');
         }
 
-        return view('auth.home');
+        return view('home');
     }
 }

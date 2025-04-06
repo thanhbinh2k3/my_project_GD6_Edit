@@ -65,6 +65,11 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'users_2' => [ // Thêm phần này
+            'driver' => 'eloquent',
+            'model' => App\Models\User_2::class,
+         ],
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
