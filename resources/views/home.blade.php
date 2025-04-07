@@ -51,35 +51,27 @@
                 <li class="border-b border-black">
                     <a href="{{ route('user.index') }}" class="block py-2 load-page" data-url="{{ route('user.index') }}">Quản lý người dùng</a>
                 </li>
-                <!-- 
-                <li class="border-b border-black">
-                    <a href="{{ route('posts.index') }}" class="block py-2 load-page" data-url="{{ route('posts.index') }}">Quản lý bài đăng</a>
-                </li>
-                -->
                 <li class="border-b border-black">
                     <a href="{{ route('admin.images.index') }}" class="block py-2 load-page" data-url="{{ route('admin.images.index') }}">Quản lý thư viện ảnh</a>
                 </li>
-                <!-- 
-                <li class="border-b border-black">
-                    <a href="{{ route('file.upload') }}" class="block py-2 load-page" data-url="{{ route('file.upload') }}">Upload File</a>
-                </li>
-                -->
-                 <!-- Thêm mục "Tải lên ảnh" -->
                 <li class="border-b border-black">
                     <a href="{{ route('admin.images.create') }}" class="block py-2 load-page" data-url="{{ route('admin.images.create') }}">Tải lên ảnh</a>
                 </li>
                 <li class="border-b border-black">
+                    <a href="{{ route('admin.plans.index') }}" class="block py-2 load-page" data-url="{{ route('admin.plans.index') }}">Quản lý gói dịch vụ</a>
+                </li>
+                <li class="border-b border-black">
                     <a href="{{ route('admin.revenue') }}" class="block py-2 load-page" data-url="{{ route('admin.revenue') }}">Doanh thu</a>
                 </li>
-                <!-- Thêm nút Logout -->
                 <li class="border-b border-black">
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" style="padding: 5px;">Đăng xuất</button>
-                </form>
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" style="padding: 5px;">Đăng xuất</button>
+                    </form>
                 </li>
             </ul>
         </div>
+
 
         <!-- Nội dung chính bên phải -->
         <div class="flex-1 p-6" id="main-content">

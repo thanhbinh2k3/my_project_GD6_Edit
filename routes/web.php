@@ -12,6 +12,8 @@ use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
+
+use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\PasswordResetController;
@@ -103,6 +105,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('images', [ImageController::class, 'index'])->name('images.index');
 });
 
+
+
 Route::post('/admin/images', [ImageController::class, 'store'])->name('admin.images.store');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -120,12 +124,13 @@ Route::get('/admin/revenue', [RevenueController::class, 'index'])->name('admin.r
 
 // Các route trong đây sẽ được bảo vệ bởi auth middleware
 Route::middleware('auth')->group(function () {
-    
+
 
     // Route Dashboard
     Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController_2::class, 'index'])->name('dashboard');
     });
+
 
     // Quản lý User
     Route::resource('/admin/user', UserController_2::class);  // Sử dụng UserController cho các route admin users
@@ -158,5 +163,19 @@ Route::middleware('auth')->group(function () {
     
     // Route logout (GET request)
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+});
+
+
+
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Quản lý Plan
+    Route::get('/plans', [PlanController::class, 'index'])->name('plans.index');
+    Route::get('/plans/create', [PlanController::class, 'create'])->name('plans.create');
+    Route::post('/plans', [PlanController::class, 'store'])->name('plans.store');
+    Route::get('/plans/{id}/edit', [PlanController::class, 'edit'])->name('plans.edit');
+    Route::put('/plans/{id}', [PlanController::class, 'update'])->name('plans.update');
+    Route::delete('/plans/{id}', [PlanController::class, 'destroy'])->name('plans.destroy');
 
 });
