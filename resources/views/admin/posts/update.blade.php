@@ -9,6 +9,8 @@
     <h1>Cập nhật Bài đăng</h1>
 
     <p>Bài viết <strong>{{ $post->title }}</strong> đã được cập nhật thành công!</p>
+    <p>Nội dung mới: {{ $post->content }}</p>
+    <p>Ngày cập nhật: {{ $post->updated_at->format('d/m/Y H:i') }}</p>
 
     <a href="{{ route('posts.index') }}">Quay lại danh sách bài viết</a>
     <br>

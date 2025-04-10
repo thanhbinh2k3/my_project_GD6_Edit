@@ -9,10 +9,19 @@ class Post extends Model
 {
     use HasFactory;
 
-    // Chỉ định các trường có thể mass-assign
-    protected $table = 'posts'; // Đảm bảo đây là tên bảng đúng trong MySQL
-    protected $fillable = ['id', 'title', 'category', 'status'];
+    protected $table = 'posts';
 
-    public $timestamps = true; // Đảm bảo timestamps tự động
+    protected $fillable = [
+        'id',
+        'title',
+        'content',
+        'created_at',
+        'updated_at'
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+    ];
+
+    public $timestamps = true;
 }
-

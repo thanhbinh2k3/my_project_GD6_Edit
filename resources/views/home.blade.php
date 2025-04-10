@@ -22,7 +22,6 @@
 </head>
 <body class="bg-gray-100">
     <!-- Kiểm tra và hiển thị thông báo -->
-    <!-- Kiểm tra và hiển thị thông báo -->
     @if(session('status'))
         <div id="status-message" class="alert alert-success">
             {{ session('status') }}
@@ -52,21 +51,18 @@
                     <a href="{{ route('user.index') }}" class="block py-2 load-page" data-url="{{ route('user.index') }}">Quản lý người dùng</a>
                 </li>
                 <li class="border-b border-black">
-                    <a href="{{ route('admin.images.index') }}" class="block py-2 load-page" data-url="{{ route('admin.images.index') }}">Quản lý thư viện ảnh</a>
+                    <a href="{{ route('admin.images.index') }}" class="block py-2 load-page" data-url="{{ route('admin.images.index') }}">Quản lý trường phái</a>
                 </li>
                 <li class="border-b border-black">
-                    <a href="{{ route('admin.images.create') }}" class="block py-2 load-page" data-url="{{ route('admin.images.create') }}">Tải lên ảnh</a>
+                    <a href="{{ route('posts.index') }}" class="block py-2 load-page" data-url="{{ route('posts.index') }}">Quản lý bài đăng</a>
                 </li>
                 <li class="border-b border-black">
                     <a href="{{ route('admin.plans.index') }}" class="block py-2 load-page" data-url="{{ route('admin.plans.index') }}">Quản lý gói dịch vụ</a>
                 </li>
                 <li class="border-b border-black">
-                    <a href="{{ route('admin.revenue') }}" class="block py-2 load-page" data-url="{{ route('admin.revenue') }}">Doanh thu</a>
-                </li>
-                <li class="border-b border-black">
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" id="logout-form">
                         @csrf
-                        <button type="submit" style="padding: 5px;">Đăng xuất</button>
+                        <button type="submit" style="padding: 5px;" id="logout-button">Đăng xuất</button>
                     </form>
                 </li>
             </ul>
@@ -94,7 +90,6 @@
                 event.preventDefault();
                 var url = $(this).data("url");
                 
-
                 $.get(url, function(data) {
                     $("#main-content").html(data); // Tải nội dung vào phần main-content
                 }).fail(function() {
@@ -102,18 +97,27 @@
                 });
             });
 
-        // Thêm sự kiện để load trang chi tiết người dùng vào panel phải
-        $(".view").click(function(event) {
-            event.preventDefault();
-            var url = $(this).attr("href");
+            // Thêm sự kiện để load trang chi tiết người dùng vào panel phải
+            $(".view").click(function(event) {
+                event.preventDefault();
+                var url = $(this).attr("href");
 
-            $.get(url, function(data) {
-                $("#main-content").html(data); // Tải nội dung chi tiết vào panel phải
-            }).fail(function() {
-                alert("Không thể tải nội dung, vui lòng thử lại!");
+                $.get(url, function(data) {
+                    $("#main-content").html(data); // Tải nội dung chi tiết vào panel phải
+                }).fail(function() {
+                    alert("Không thể tải nội dung, vui lòng thử lại!");
+                });
+            });
+
+            // Xử lý sự kiện đăng xuất
+            $('#logout-form').on('submit', function(event) {
+                event.preventDefault(); // Ngừng form submit mặc định
+                // Đăng xuất và chuyển hướng đến trang chủ
+                $.post($(this).attr('action'), $(this).serialize(), function() {
+                    window.location.href = "http://127.0.0.1:8000"; // Chuyển hướng sau khi đăng xuất
+                });
             });
         });
-    });
     </script>
 
 </body>

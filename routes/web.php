@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\UserController_2;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserProfileController;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\LoginController;  // Đảm bảo đã import LoginController
 use App\Http\Controllers\Admin\UserController;  // Không cần alias nữa
 use App\Http\Controllers\Admin\PostController;
@@ -9,15 +11,20 @@ use App\Http\Controllers\Admin\DashboardController_2;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\UserController_2 as UC;
 use App\Http\Controllers\Admin\RevenueController;
+use App\Http\Controllers\User\PostController_2;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
-
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PredictController;
+
+Route::get('/predict', [PredictController::class, 'index'])->name('user.predict');
+
 
 /*
 |----------------------------------------------------------------------
@@ -32,9 +39,19 @@ use App\Http\Controllers\AuthController;
 //    return view('welcome');
 //});
 
+//Route::get('/', function () {
+ //   return redirect()->route('login');
+//});
+// Trang chủ cho khách
 Route::get('/', function () {
-    return redirect()->route('login');
+    return view('home_2');
+})->name('home');
+
+Route::get('/gioi_thieu', function () {
+    return view('gioi_thieu'); // Trang này sẽ trả về view gioi_thieu.blade.php
 });
+
+
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
@@ -43,9 +60,15 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post'); //
 Route::get('/user_home', [UserHomeController::class, 'index'])->name('user.home'); // Route cho trang chủ người dùng
 
 
+Route::get('/user/posts_2', [PostController_2::class, 'index'])->name('user.posts.index_2');
+Route::get('/user/profile', [UserHomeController::class, 'profile'])->name('user.profile');
+
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController_2::class, 'index'])->name('dashboard');
 });
+
+
+Route::get('/user/posts', [PostController_2::class, 'index_2'])->name('user.posts');
 
 Route::resource('user', UserController::class);  // Sử dụng UserController mà không alias
 
@@ -101,11 +124,13 @@ Route::post('/forgot_password', [PasswordResetController::class, 'sendResetLink'
 
 // routes/web.php
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('images', [ImageController::class, 'index'])->name('images.index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile/edit', [UserProfileController::class, 'editProfile'])->name('user.edit_profile');
+    Route::post('/profile/update', [UserProfileController::class, 'updateProfile'])->name('user.update_profile');
+
+    Route::get('/profile/change_password', [UserProfileController::class, 'changePassword'])->name('user.change_password');
+    Route::post('/profile/update_password', [UserProfileController::class, 'updatePassword'])->name('user.update_password');
 });
-
-
 
 Route::post('/admin/images', [ImageController::class, 'store'])->name('admin.images.store');
 
@@ -116,15 +141,18 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 Route::prefix('admin/images')->name('admin.images.')->group(function () {
     Route::get('/', [ImageController::class, 'index'])->name('index');    
     Route::get('/{id}/edit', [ImageController::class, 'edit'])->name('edit'); // nếu có
+    Route::put('/{id}', [ImageController::class, 'update'])->name('update'); // Route xử lý cập nhật
     Route::get('/{id}/delete', [ImageController::class, 'destroy'])->name('delete');
 });
 
 Route::get('/admin/revenue', [RevenueController::class, 'index'])->name('admin.revenue');
 
-
 // Các route trong đây sẽ được bảo vệ bởi auth middleware
 Route::middleware('auth')->group(function () {
 
+    Route::middleware(['auth'])->group(function () {
+        Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
+    });
 
     // Route Dashboard
     Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -162,11 +190,15 @@ Route::middleware('auth')->group(function () {
     Route::post('/files/upload', [FileController::class, 'store'])->name('file.store');
     
     // Route logout (GET request)
-    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    //Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Đăng xuất và chuyển hướng đến trang chủ
+    Route::post('/logout', function () {
+        Auth::logout();
+        return redirect('http://127.0.0.1:8000'); // Chuyển hướng về trang chủ
+    })->name('logout');
 
 });
-
-
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
 

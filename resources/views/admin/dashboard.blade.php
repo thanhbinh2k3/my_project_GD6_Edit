@@ -5,33 +5,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
     <style>
         body {
             background-color: #f3f4f6;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0px;
-        }
-        h1 {
-            color: #1e40af;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px; /* Giới hạn chiều rộng tối đa là 800px */
-            margin: auto; /* Căn giữa phần tử theo chiều ngang */
-            background: white; /* Đặt nền trắng */
-            padding: 10px; /* Thêm khoảng cách bên trong phần tử (20px) */
-            border-radius: 10px; /* Bo tròn góc với bán kính 10px */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng đổ bóng nhẹ */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        h1 {
+            color: #1e3a8a;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .stats {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .card {
+            flex: 1 1 calc(25% - 20px);
+            background-color: #eff6ff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            font-size: 36px;
+            color: #1d4ed8;
+            margin: 10px 0;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: #374151;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex: 1 1 100%;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to the Admin Dashboard</h1>
-        <p>This is your central hub for managing content and users.</p>
+        <h1>Thống kê quản lý</h1>
+        <div class="stats">
+            <div class="card">
+                <h2>{{ $usersCount }}</h2>
+                <p>Người dùng</p>
+            </div>
+            <div class="card">
+                <h2>{{ $postsCount }}</h2>
+                <p>Bài đăng</p>
+            </div>
+            <div class="card">
+                <h2>{{ $stylesCount }}</h2>
+                <p>Trường phái hội hoạ</p>
+            </div>
+            <div class="card">
+                <h2>{{ $packagesCount }}</h2>
+                <p>Gói dịch vụ</p>
+            </div>
+        </div>
     </div>
 </body>
 </html>

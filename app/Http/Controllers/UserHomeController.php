@@ -10,4 +10,11 @@ class UserHomeController extends Controller
     {
         return view('user_home'); // Trả về view user_home.blade.php
     }
+
+    public function profile()
+    {
+        return view('user.profile'); // Tạo file view resources/views/user/profile.blade.php
+    }
+
+    
 }
