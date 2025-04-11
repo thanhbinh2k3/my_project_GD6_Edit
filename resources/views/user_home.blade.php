@@ -181,6 +181,22 @@
         button i {
             margin-right: 5px;
         }
+
+        .animated-icon {
+            display: inline-block;
+            animation: hueRotate 5s infinite linear;
+            transition: transform 0.3s ease;
+            filter: hue-rotate(0deg);
+        }
+
+        .animated-icon:hover {
+            transform: scale(1.3) rotate(-15deg);
+        }
+
+        @keyframes hueRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -188,14 +204,26 @@
 
     <!-- Header -->
     <header>
-        <div><h2>🎨 Nhận dạng trường phái hội hoạ</h2></div>
+        <div>
+            <h2>
+                <span class="animated-icon">🎨</span> Nhận dạng trường phái hội hoạ
+            </h2>
+        </div>
         <div class="header-buttons">
+            <button onclick="window.location.href='{{ route('user.plans') }}'">
+                <i class="fas fa-gem"></i> Gói dịch vụ
+            </button>
+
             <button onclick="window.location.href='{{ route('user.predict') }}'">
                 <i class="fas fa-magic"></i> Dự đoán
             </button>
 
             <button onclick="window.location.href='{{ route('user.posts.index_2') }}'">
                 <i class="fas fa-newspaper"></i> Bài đăng từ Admin
+            </button>
+
+            <button onclick="window.location.href='{{ route('user.styles.index') }}'">
+                <i class="fas fa-palette"></i> Trường phái hội hoạ
             </button>
 
             <button onclick="window.location.href='{{ route('user.profile') }}'">
@@ -211,8 +239,10 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="search-box">
-            <input type="text" placeholder="🔍 Tìm kiếm tranh hoặc trường phái...">
-            <button>Tìm kiếm</button>
+            <form action="{{ route('user.search') }}" method="GET">
+                <input type="text" name="query" placeholder="🔍 Tìm kiếm tranh hoặc trường phái...">
+                <button type="submit">Tìm kiếm</button>
+            </form>
         </div>
         <h3>🎨 Hệ thống nhận dạng trường phái hội hoạ từ ảnh</h3>
         <img src="{{ asset('art_img.jpg') }}" alt="Demo art image">

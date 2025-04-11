@@ -31,12 +31,15 @@ class UserController_2 extends Controller
         ]);
 
         // Create a new user
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role' => $request->role,  // Store the role
+            'role' => $request->role,
         ]);
+
+        // Ghi log hoạt động
+        $this->logActivity('Thêm người dùng', 'Tên: ' . $user->name);
 
         return redirect()->route('user.index')->with('success', 'User created successfully!');
     }
@@ -71,6 +74,9 @@ class UserController_2 extends Controller
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
+        // Ghi log hoạt động
+        $this->logActivity('Cập nhật người dùng', 'Tên: ' . $user->name);
+
         return redirect()->route('user.index')->with('success', 'User updated successfully!');
     }
 
@@ -78,7 +84,11 @@ class UserController_2 extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        $userName = $user->name;
         $user->delete();
+
+        // Ghi log hoạt động
+        $this->logActivity('Xoá người dùng', 'Tên: ' . $userName);
 
         return redirect()->route('user.index')->with('success', 'User deleted successfully!');
     }

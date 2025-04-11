@@ -7,113 +7,120 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #f9fafc, #eef1f7);
             margin: 0;
             padding: 20px;
+            color: #333;
+            scroll-behavior: smooth;
         }
 
         header, footer {
-            background: linear-gradient(to right, #f0f4ff, #e6e9f0);
+            background: linear-gradient(to right, #e3ecff, #d2dfff);
             padding: 15px 30px;
-            border: 2px solid black; /* Thêm viền đen */
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         .header-buttons button {
             margin-left: 12px;
-            padding: 8px 14px;
+            padding: 10px 18px;
             background-color: #4a90e2;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-weight: 600;
-            transition: background-color 0.3s ease;
+            transition: 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .header-buttons button:hover {
-            background-color: #357abd;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+            background-color: #2b74c9;
+            transform: translateY(-2px);
         }
 
         .page-container {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
             text-align: center;
-            margin-bottom: 30px;
-            color: #333;
+            margin: 30px 0 20px;
+            color: #2c3e50;
+            font-size: 26px;
         }
 
         .post-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
             max-width: 900px;
             margin: auto;
         }
 
         .post-card {
-            background-color: white;
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid black; /* Thêm viền đen */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-            transition: 0.3s;
+            background-color: #ffffff;
+            padding: 24px;
+            border-radius: 16px;
+            border: 1px solid #dcdde1;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease both;
         }
 
         .post-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
         }
 
         .post-title {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: bold;
-            color: #007BFF;
-            margin-bottom: 10px;
+            color: #2980b9;
+            margin-bottom: 12px;
         }
 
         .post-content {
             font-size: 16px;
-            color: #444;
-            margin-bottom: 10px;
+            color: #555;
+            line-height: 1.6;
+            text-align: justify;
         }
 
         .post-date {
             font-size: 14px;
-            color: #999;
+            color: #888;
             text-align: right;
+            margin-top: 12px;
         }
 
         .no-posts {
             text-align: center;
-            color: #999;
+            color: #aaa;
             font-size: 18px;
             margin-top: 50px;
+            animation: fadeIn 0.7s ease-in;
         }
 
         footer {
-            background: #e7eaf1;
+            background: #eef3f9;
             display: flex;
             flex-wrap: wrap;
-            border: 2px solid black; /* Thêm viền đen */
             justify-content: space-around;
             padding: 30px 20px;
             font-size: 0.95rem;
-            border-top: 1px solid #ccc;
+            border-radius: 12px;
+            margin-top: auto;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.03);
         }
 
         .footer-section {
@@ -127,6 +134,7 @@
         .footer-section img {
             width: 48px;
             height: 48px;
+            border-radius: 8px;
         }
 
         .footer-section div strong {
@@ -138,7 +146,7 @@
 
         .footer-section div p {
             margin: 0;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         button {
@@ -147,7 +155,7 @@
             padding: 10px 20px;
             margin: 5px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-size: 16px;
@@ -157,11 +165,28 @@
             background-color: #2779bd;
             transform: scale(1.05);
         }
-        
+
         button i {
             margin-right: 5px;
         }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
+
 </head>
 <body>
     <div class="page-container">

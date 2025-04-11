@@ -13,14 +13,17 @@ use App\Http\Controllers\UserController_2 as UC;
 use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\User\PostController_2;
 use App\Http\Controllers\UserHomeController;
+use App\Http\Controllers\User\StyleController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\UserPlanController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RegisterController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\User\SearchController;
 use App\Http\Controllers\PredictController;
 
 Route::get('/predict', [PredictController::class, 'index'])->name('user.predict');
@@ -70,10 +73,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
 Route::get('/user/posts', [PostController_2::class, 'index_2'])->name('user.posts');
 
-Route::resource('user', UserController::class);  // Sử dụng UserController mà không alias
-
 // Define the resource route for user
-Route::resource('user', UC::class);
+//Route::resource('user', UC::class);
 
 // Đảm bảo bạn đã khai báo route cho dashboard
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
@@ -99,6 +100,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // C
 Route::get('/user_home', [UserHomeController::class, 'index'])->name('user_home'); // Đảm bảo bạn đã tạo controller cho user
 
 
+
 // Route cho trang chủ (home) sau khi đăng nhập thành công
 Route::get('/home', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
@@ -122,6 +124,8 @@ Route::post('/forgot_password', [PasswordResetController::class, 'sendResetLink'
 //    return view('home');
 //})->name('home');  // Bảo vệ trang home, chỉ truy cập được khi đăng nhập
 
+
+Route::get('/search', [SearchController::class, 'search'])->name('user.search');
 // routes/web.php
 
 Route::middleware(['auth'])->group(function () {
@@ -159,9 +163,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController_2::class, 'index'])->name('dashboard');
     });
 
+    Route::get('/user/plans', [UserPlanController::class, 'index'])->name('user.plans');
+    Route::post('/user/plans/register/{id}', [UserPlanController::class, 'register'])->name('user.plans.register');
 
     // Quản lý User
-    Route::resource('/admin/user', UserController_2::class);  // Sử dụng UserController cho các route admin users
+    //Route::resource('/admin/user', UserController_2::class);  // Sử dụng UserController cho các route admin users
+    Route::resource('user', App\Http\Controllers\UserController_2::class);
 
     Route::prefix('admin')->middleware('auth')->group(function () {
         Route::resource('posts', PostController::class);
@@ -198,6 +205,10 @@ Route::middleware('auth')->group(function () {
         return redirect('http://127.0.0.1:8000'); // Chuyển hướng về trang chủ
     })->name('logout');
 
+    //Route::prefix('user')->name('user.')->group(function () {
+     //   Route::get('/user/plans', [VipController::class, 'index'])->name('user.plans.index');
+      //  Route::post('/user/plans/register', [VipController::class, 'register'])->name('user.plans.register');
+    //});
 });
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
@@ -211,3 +222,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/plans/{id}', [PlanController::class, 'destroy'])->name('plans.destroy');
 
 });
+Route::get('/user/styles', [App\Http\Controllers\User\StyleController::class, 'index'])->name('user.styles');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/styles/reset-views', [StyleController::class, 'resetViews'])->name('user.styles.resetViews'); // <-- đặt lên trên
+    Route::get('/styles', [StyleController::class, 'index'])->name('user.styles.index');
+    Route::get('/styles/search', [StyleController::class, 'index'])->name('user.search');
+    Route::get('/styles/{id}', [StyleController::class, 'show'])->name('user.styles.show');
+    Route::post('/styles/{id}/like', [StyleController::class, 'like'])->name('user.styles.like');
+});
+
+
+
+
+// Các route user phía sau
+Route::resource('user', UserController_2::class);
+
+
